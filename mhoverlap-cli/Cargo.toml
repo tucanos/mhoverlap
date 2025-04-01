@@ -1,0 +1,12 @@
+[package]
+name = "mhoverlap-cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.34", features = ["derive"] }
+qd-cgns-rs = { git = "https://github.com/tucanos/qd-cgns-rs.git" }
+mhoverlap = { path = "../mhoverlap" }
+
+[lints]
+workspace = true
