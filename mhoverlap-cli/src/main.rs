@@ -2,7 +2,7 @@ use core::f32;
 
 use clap::Parser;
 use mhoverlap::BackgroundMesh;
-use qd_cgns_rs::{BCType, ElementType, PointSetType, SectionInfo};
+use qd_cgns_rs::{BCType, ElementType, PointSetType, SectionInfo, cgsize};
 
 /// CLI application for working with CGNS files
 #[derive(Parser, Debug)]
@@ -80,7 +80,7 @@ impl ZoneIterator {
         })
     }
 
-    pub fn save(&self, filename: &str, overlap: &[i64], nooverlap: &[i64]) {
+    pub fn save(&self, filename: &str, overlap: &[cgsize], nooverlap: &[cgsize]) {
         let mut f = qd_cgns_rs::open(filename, qd_cgns_rs::Mode::Write).unwrap();
         let base = f.base_write("Base", 3, 3).unwrap();
         let zone_cg_id = f
@@ -137,7 +137,7 @@ fn main() {
     let mut overlap = Vec::with_capacity(checked.num_cells);
     let mut nooverlap = Vec::with_capacity(checked.num_cells);
     for (element_id, element) in checked.elements().enumerate() {
-        let element_id = element_id as i64 + 1;
+        let element_id = element_id as cgsize + 1;
         if background_mesh.check_element(element.map(|x| x as usize)) {
             overlap.push(element_id);
         } else {
